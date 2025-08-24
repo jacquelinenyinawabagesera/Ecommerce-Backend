@@ -1,113 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fresh Products</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 20px;
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-      margin-bottom: 30px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    li {
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer; /* Show pointer on hover */
-    }
-    li:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    }
-    li > br {
-      display: none;
-    }
-    a.product-link {
-      text-decoration: none;
-      color: inherit; /* Keep text color the same */
-      display: block;
-    }
-    /* Styling individual parts */
-    li strong {
-      display: block;
-      font-size: 1.4em;
-      color: #2980b9;
-      margin-bottom: 8px;
-    }
-    .price {
-      color: #27ae60;
-      font-weight: 600;
-      margin-bottom: 10px;
-      font-size: 1.1em;
-    }
-    .description {
-      font-style: italic;
-      color: #7f8c8d;
-      line-height: 1.4;
-    }
-  </style>
-</head>
-<body>
-  <h1>Fresh Products</h1>
-  <ul>
-    {% for product in products %}
-    <li>
-      <a href="{% url 'product_detail' product.id %}" class="product-link">
-        <strong>{{ product.name }}</strong>
-        <div class="price">Price: ${{ product.price }}</div>
-        <div class="description">{{ product.description }}</div>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-</body>
-</html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="modal.css">
-    <script
-    src="https://kit.fontawesome.com/bbdf563758.js"
-    crossorigin="anonymous"></script>
-</head>
-<body>
-   <h1>
-    Fresh Products
-   </h1>
-   <ul>
-    {%for product in products %}
-    <li>{{product.name}}<br>
-        price:{{product.price}}<br>
-        {{product.description}}
-        {% comment %} <a href="{{url_for('product', id=product.id)}}">View Product</a> {% endcomment %}
-        <a href="{% url 'product_detail' id=product.id %}">{{product.name}}</a>
-    </li>
-    {%endfor%}
-   </ul>
-</body>
-</html>
-{% comment %} Django template language {% endcomment %} -->
+{% extends "base.html" %}
+{% block content %}
+<div class="py-12">
+  <div class="max-w-6xl mx-auto px-4">
+    <h1 class="text-4xl font-bold text-yellow-600 text-center mb-12 tracking-wide">Featured Products</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+      {% for product in products %}
+      <div class="flex flex-col items-center bg-transparent">
+        <a href="{% url 'product_details' product.id %}" class="w-full flex flex-col items-center group">
+          {% if product.image %}
+            <img src="{{ product.image }}" alt="{{ product.name }}"
+                 class="w-48 h-48 object-contain rounded-xl shadow mb-4 bg-white border-2 border-gray-100 group-hover:scale-105 transform transition" />
+          {% else %}
+            <div class="w-48 h-48 flex items-center justify-center rounded-xl shadow mb-4 bg-gray-100 border-2 border-gray-200 text-gray-400">
+              No Image
+            </div>
+          {% endif %}
+          <span class="text-gray-500 text-sm mb-1">{{product.category}}</span>
+          <h2 class="text-lg font-semibold text-green-700 mb-2">{{ product.name }}</h2>
+        </a>
+        <a href="{% url 'product_details' product.id %}" class="mt-2 px-6 py-1 border border-gray-400 rounded-full text-gray-700 hover:bg-yellow-50 transition">Read more</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

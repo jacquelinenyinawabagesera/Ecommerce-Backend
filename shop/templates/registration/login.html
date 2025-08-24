@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Akeza Grocery Shop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+</head>
+<body
+  class="min-h-screen flex flex-col justify-center items-center"
+  style="background: url('https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat fixed;">
+  >
+  <div class="flex flex-col items-center justify-center w-full min-h-screen bg-black/60">
+    <div class="w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 flex flex-col items-center"
+         style="background: rgba(255,255,255,0.65); backdrop-filter: blur(10px); border: 4px solid #43a047;">
+      <h2 class="text-3xl font-bold text-gray-900 mb-3 tracking-wide drop-shadow">LOGIN</h2>
+      <p class="mb-7 text-gray-700 text-center text-base font-medium">Welcome back! Please login to your account</p>
+      <form method="post" class="w-full space-y-6">
+        {% csrf_token %}
+        <div>
+          <label for="id_username" class="block text-gray-900 text-base font-semibold mb-2">Username</label>
+          <input type="text" name="username" id="id_username"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 bg-white/90 font-medium transition"
+                 required autofocus>
+        </div>
+        <div>
+          <label for="id_password" class="block text-gray-900 text-base font-semibold mb-2">Password</label>
+          <input type="password" name="password" id="id_password"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 bg-white/90 font-medium transition"
+                 required>
+        </div>
+        <div class="flex items-center justify-between text-sm mt-1">
+          <div>
+            <input type="checkbox" id="remember_me" name="remember_me" class="mr-2 accent-green-600">
+            <label for="remember_me" class="text-gray-700">Remember me</label>
+          </div>
+          <a href="#" class="text-green-700 font-bold hover:underline transition">Forgot Password?</a>
+        </div>
+        <button type="submit"
+                class="w-full py-3 px-4 mt-2 bg-green-600 hover:bg-green-700 text-white text-lg font-bold rounded-xl shadow-lg transition">
+          Login
+        </button>
+      </form>
+      <div class="mt-6 w-full flex justify-center text-sm">
+        <span class="text-gray-600">New user?</span>
+        <a href="#" class="ml-1 text-green-700 font-bold hover:underline transition">Signup</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

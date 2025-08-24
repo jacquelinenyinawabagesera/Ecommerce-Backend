@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+  <section  class="bg-gray-100 flex flex-col  items-center min-h-screen" >
+    <div class="w-full max-w-md mt-16 mb-8 px-6 py-8 bg-white rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-center text-green-800 mb-6">Create a Product</h1>
+        <form method="POST" enctype="multipart/form-data" class="space-y-4 ">
+            {% csrf_token %}
+            <div class="space-y-2">
+                <label for="id_name" class="block font-medium text-gray-700">Name</label>
+                {{ form.name }}
+            </div>
+            <div class="space-y-2">
+                <label for="id_description" class="block font-medium text-gray-700">Description</label>
+                {{ form.description }}
+            </div>
+            <div class="space-y-2">
+                <label for="id_price" class="block font-medium text-gray-700">Price</label>
+                {{ form.price }}
+            </div>
+            <div class="space-y-2">
+                <label for="id_stock" class="block font-medium text-gray-700">Stock</label>
+                {{ form.stock }}
+            </div>
+            <div class="space-y-2">
+                <label for="id_image" class="block font-medium text-gray-700">Product Image</label>
+                {{ form.image }}
+            </div>
+            <button type="submit"
+                class="w-full bg-green-700 hover:bg-green-800 text-white py-2 px-4 rounded font-semibold transition-colors">
+                Save
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

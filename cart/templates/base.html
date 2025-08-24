@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <header class="w-full">
+    <div class="bg-black text-white text-center py-2 text-sm">
+      Summer Sale For Groceries And Free Express Delivery - OFF 50%!
+      <a href="#" class="underline font-semibold">ShopNow</a>
+      <select class="bg-black text-white border-none ml-4 text-sm">
+        <option>English</option>
+      </select>
+    </div>
+    <div class="border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="text-2xl font-bold text-black">Exclusive</a>
+          <nav class="hidden md:flex space-x-8 items-center">
+            <a href="/catalogue/products/" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Home</a>
+            <a href="/cart/" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Cart</a>
+            {% if user.is_authenticated %}
+              <a href="/catalogue/products/create" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Add more</a>
+            {% else %}
+              <a href="{% url 'login' %}?next=/catalogue/products/create" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Add more</a>
+              <a href="{% url 'login' %}" class="ml-4 px-4 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold shadow transition text-sm">Sign In</a>
+            {% endif %}
+          </nav>
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden sm:block">
+              <input
+                type="text"
+                placeholder="What are you looking for?"
+                class="bg-gray-100 px-4 py-2 pr-10 rounded text-sm w-64 focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-black"></i>
+            </div>
+            <button class="p-2 hover:bg-gray-100 rounded">
+              <i class="far fa-heart text-black"></i>
+            </button>
+            <a href="{% url 'cart:cart_detail' %}" class="p-2 hover:bg-gray-100 rounded relative" title="View Cart">
+              <i class="fas fa-shopping-cart text-black"></i>
+              <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                {{ cart_count|default:"0" }}
+              </span>
+            </a>
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'logout' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" title="Logout" class="px-2 py-1 hover:text-green-800 text-green-800 transition flex items-center">
+                  <i class="fa-solid fa-power-off"></i>
+                </button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>{% block content %} {% endblock %}</main>
+  <footer class="bg-black text-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div class="space-y-4">
+          <h3 class="text-xl font-semibold">Exclusive</h3>
+          <h4 class="text-lg">Subscribe</h4>
+          <p class="text-gray-300 text-sm">Get 10% off your first order</p>
+          <div class="relative">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="bg-black border border-gray-600 px-4 py-2 pr-10 rounded text-sm w-full focus:outline-none focus:border-white"
+            />
+            <button class="absolute right-2 top-1/2 transform -translate-y-1/2">
+              <i class="fas fa-paper-plane text-white"></i>
+            </button>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold">Support</h3>
+          <div class="space-y-2 text-sm text-gray-300">
+            <p>111 Nairobi, Kenya,<br />KC 1515, Karen</p>
+            <p>akezasaloi@gmail.com</p>
+            <p>+254-78030-0458</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold">Account</h3>
+          <div class="space-y-2 text-sm">
+            <a href="/account" class="block text-gray-300 hover:text-white">My Account</a>
+            <a href="/login" class="block text-gray-300 hover:text-white">Login</a>
+            <a href="{% url 'cart:cart_detail' %}" class="block text-gray-300 hover:text-white">Cart</a>
+            <a href="/wishlist" class="block text-gray-300 hover:text-white">Wishlist</a>
+            <a href="{% url 'list_products' %}" class="block text-gray-300 hover:text-white">Shop</a>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold">Quick Link</h3>
+          <div class="space-y-2 text-sm">
+            <a href="/privacy-policy" class="block text-gray-300 hover:text-white">Privacy Policy</a>
+            <a href="/terms" class="block text-gray-300 hover:text-white">Terms Of Use</a>
+            <a href="/faq" class="block text-gray-300 hover:text-white">FAQ</a>
+            <a href="/contact" class="block text-gray-300 hover:text-white">Contact</a>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold">Download App</h3>
+          <p class="text-gray-300 text-xs">Save $3 with App New User Only</p>
+          <div class="grid grid-cols-2 gap-2">
+            <img src="https://www.free-barcode-generator.net/images/start/qrcode_bookm_en.png" alt="QR Code" class="w-20 h-20" />
+            <div class="space-y-2">
+              <a href="https://play.google.com/store" target="_blank" rel="noopener">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" class="w-24 h-8 mb-2" />
+              </a>
+              <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1280px-Download_on_the_App_Store_Badge.svg.png" alt="App Store" class="w-24 h-8" />
+              </a>
+            </div>
+          </div>
+          <div class="flex space-x-4 pt-2">
+            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-600">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center">
+        <p class="text-gray-500 text-sm">@Copyright Akeza 2025. All right reserved</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+  <main class="flex-1">
+    <div class="max-w-6xl mx-auto py-10 px-4">
+    <h1 class="text-4xl font-bold text-green-800 mb-2">Your Cart</h1>
+    <div class="text-gray-600 mb-8">
+      {% if items %}
+        There are {{ items|length }} product{{ items|length|pluralize }} in your cart
+      {% else %}
+        Your cart is empty.
+      {% endif %}
+    </div>
+    {% if items %}
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="md:col-span-2">
+        <div class="overflow-x-auto rounded-lg bg-white shadow">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr class="bg-gray-100 text-gray-700 text-left text-lg">
+                <th class="py-4 px-4">Product</th>
+                <th class="py-4 px-4">Unit Price</th>
+                <th class="py-4 px-4">Quantity</th>
+                <th class="py-4 px-4">Subtotal</th>
+                <th class="py-4 px-4">Remove</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              {% for item in items %}
+              <tr>
+                <td class="py-4 px-4 flex items-center space-x-4">
+                  {% if item.product.image %}
+                    <img src="{{ item.product.image }}" alt="{{ item.product.name }}" class="w-16 h-16 rounded-lg border object-contain" />
+                  {% endif %}
+                  <div>
+                    <p class="font-semibold text-green-900">{{ item.product.name }}</p>
+                    <p class="text-xs text-gray-500">Sold by: <span class="font-bold text-green-700">KK Store</span></p>
+                  </div>
+                </td>
+                <td class="py-4 px-4 font-medium text-gray-800">Ksh {{ item.product.price|floatformat:2 }}</td>
+                <td class="py-4 px-4">
+                  <div class="flex items-center justify-center space-x-2">
+                    {% if item.quantity > 1 %}
+                      <form method="post" action="{% url 'cart:update_cart_item' item.product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="{{ item.quantity|add:'-1' }}">
+                        <button type="submit" class="text-red-600 hover:text-red-800 px-2 py-1 rounded" title="Decrease Quantity">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </form>
+                    {% else %}
+                      <form method="post" action="{% url 'cart:remove_from_cart' item.product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="text-red-600 hover:text-red-800 px-2 py-1 rounded" title="Remove Item">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </form>
+                    {% endif %}
+                    <input type="text" value="{{ item.quantity }}" readonly class="w-14 text-center border border-yellow-500 rounded px-2 py-1 bg-gray-50 font-semibold" />
+
+                    <form method="post" action="{% url 'cart:update_cart_item' item.product.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="quantity" value="{{ item.quantity|add:'1' }}">
+                      <button type="submit" class="text-green-600 hover:text-green-800 px-2 py-1 rounded" title="Increase Quantity">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </form>
+                  </div>
+                </td>
+                <td class="py-4 px-4 font-bold text-green-700">Ksh {{ item.subtotal|floatformat:2 }}</td>
+                <td class="py-4 px-4">
+                  <form method="post" action="{% url 'cart:remove_from_cart' item.product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-600 hover:text-red-800" title="Remove">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="flex mt-6 space-x-4">
+          <a href="{% url 'list_products' %}" class="bg-green-900 hover:bg-green-800 text-white px-6 py-2 rounded font-semibold flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+          </a>
+        </div>
+        <div class="mt-10">
+          <h2 class="text-lg font-semibold mb-2">Apply Coupon</h2>
+          <form method="post" action="#" class="flex items-center space-x-3">
+            {% csrf_token %}
+            <input type="text" name="coupon" placeholder="Using A Promo Code?" class="w-64 border border-gray-400 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-200 text-gray-700" />
+            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded font-semibold">
+              Apply
+            </button>
+          </form>
+        </div>
+      </div>
+      <div>
+        <div class="bg-white rounded-lg shadow px-8 py-8">
+          <h3 class="text-lg font-semibold mb-4">Total</h3>
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Shipping fees not included</span>
+          </div>
+          <div class="text-3xl font-bold text-green-700 mb-6">Ksh {{ total|floatformat:2 }}</div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="text-lg text-gray-700 bg-white rounded-lg shadow p-6 text-center mx-auto max-w-xl">
+      Your cart is empty. <a href="{% url 'list_products' %}" class="underline text-green-700">Browse products</a>
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}
