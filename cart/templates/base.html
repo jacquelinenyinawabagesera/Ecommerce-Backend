@@ -5,138 +5,139 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Your Cart</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans text-gray-800">
 
-  <header class="w-full">
-    <div class="bg-black text-white text-center py-2 text-sm">
-      Summer Sale For Groceries And Free Express Delivery - OFF 50%!
-      <a href="#" class="underline font-semibold">ShopNow</a>
-      <select class="bg-black text-white border-none ml-4 text-sm">
+  <header class="sticky top-0 z-50 bg-white shadow-md">
+    <div class="bg-green-700 text-white text-center py-5 text-sm font-semibold">
+      Fresh groceries at your doorstep – Free Express Delivery + 50% OFF!
+      <a href="#" class="underline ml-2 hover:text-green-300 transition">Shop Now</a>
+      <select class="bg-green-700 text-white border-none ml-6 text-sm cursor-pointer focus:outline-none">
         <option>English</option>
       </select>
     </div>
-    <div class="border-b border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <a href="/" class="text-2xl font-bold text-black">Exclusive</a>
-          <nav class="hidden md:flex space-x-8 items-center">
-            <a href="/catalogue/products/" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Home</a>
-            <a href="/cart/" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Cart</a>
-            {% if user.is_authenticated %}
-              <a href="/catalogue/products/create" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Add more</a>
-            {% else %}
-              <a href="{% url 'login' %}?next=/catalogue/products/create" class="text-gray-900 hover:text-gray-950 border-b-2 border-transparent hover:border-b-gray-700 pb-1 transition-colors">Add more</a>
-              <a href="{% url 'login' %}" class="ml-4 px-4 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold shadow transition text-sm">Sign In</a>
-            {% endif %}
-          </nav>
-          <div class="flex items-center space-x-4">
-            <div class="relative hidden sm:block">
-              <input
-                type="text"
-                placeholder="What are you looking for?"
-                class="bg-gray-100 px-4 py-2 pr-10 rounded text-sm w-64 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-              <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-black"></i>
-            </div>
-            <button class="p-2 hover:bg-gray-100 rounded">
-              <i class="far fa-heart text-black"></i>
-            </button>
-            <a href="{% url 'cart:cart_detail' %}" class="p-2 hover:bg-gray-100 rounded relative" title="View Cart">
-              <i class="fas fa-shopping-cart text-black"></i>
-              <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {{ cart_count|default:"0" }}
-              </span>
-            </a>
-            {% if user.is_authenticated %}
-              <form method="post" action="{% url 'logout' %}" class="inline">
-                {% csrf_token %}
-                <button type="submit" title="Logout" class="px-2 py-1 hover:text-green-800 text-green-800 transition flex items-center">
-                  <i class="fa-solid fa-power-off"></i>
-                </button>
-              </form>
-            {% endif %}
-          </div>
-        </div>
+    <nav class="max-w-7xl mx-auto px-10 sm:px-8 lg:px-12 flex items-center justify-between h-20">
+      <div class="hidden md:flex space-x-10 text-green-900 font-semibold text-lg">
+        <a href="/catalogue/products/" class="hover:text-green-700 border-b-2 border-transparent hover:border-green-600 pb-1 transition">Home</a>
+        <a href="/cart/" class="hover:text-green-700 border-b-2 border-transparent hover:border-green-600 pb-1 transition">Cart</a>
+        {% if user.is_authenticated %}
+          <a href="/catalogue/products/create" class="hover:text-green-700 border-b-2 border-transparent hover:border-green-600 pb-1 transition">Add More</a>
+        {% else %}
+          <a href="{% url 'login' %}?next=/catalogue/products/create" class="hover:text-green-700 border-b-2 border-transparent hover:border-green-600 pb-1 transition">Add More</a>
+          <a href="{% url 'login' %}" class="ml-6 px-5 py-2 rounded-full bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold shadow transition text-base">Sign In</a>
+        {% endif %}
       </div>
-    </div>
+      <div class="flex items-center space-x-6">
+        <div class="relative hidden sm:block">
+          <input
+            type="text"
+            placeholder="Search products..."
+            class="bg-green-100 px-4 py-2 pr-10 rounded-full text-sm w-72 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          />
+          <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-green-700"></i>
+        </div>
+        <button class="p-2 hover:bg-green-100 rounded-full transition" aria-label="Wishlist">
+          <i class="far fa-heart text-green-700 text-2xl"></i>
+        </button>
+        <a href="{% url 'cart:cart_detail' %}" class="relative p-3 hover:bg-green-100 rounded-full transition" title="View Cart">
+          <i class="fas fa-shopping-cart text-green-700 text-2xl"></i>
+          <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-sm">
+            {{ cart_count|default:"0" }}
+          </span>
+        </a>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'logout' %}" class="inline">
+            {% csrf_token %}
+            <button type="submit" title="Logout" class="px-3 py-2 hover:text-green-700 text-green-700 transition flex items-center text-lg">
+              <i class="fa-solid fa-power-off"></i>
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    </nav>
   </header>
+
   <main>{% block content %} {% endblock %}</main>
-  <footer class="bg-black text-white mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-        <div class="space-y-4">
-          <h3 class="text-xl font-semibold">Exclusive</h3>
-          <h4 class="text-lg">Subscribe</h4>
-          <p class="text-gray-300 text-sm">Get 10% off your first order</p>
-          <div class="relative">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              class="bg-black border border-gray-600 px-4 py-2 pr-10 rounded text-sm w-full focus:outline-none focus:border-white"
-            />
-            <button class="absolute right-2 top-1/2 transform -translate-y-1/2">
-              <i class="fas fa-paper-plane text-white"></i>
-            </button>
+
+  <footer class="bg-green-900 text-green-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+      <div>
+        <h3 class="text-3xl font-bold mb-5 text-white">Jacky Grocery</h3>
+        <h4 class="text-xl font-semibold mb-4">Subscribe & Save</h4>
+        <p class="mb-6 text-green-300 max-w-xs leading-relaxed">Join our newsletter for 10% off your first order and exclusive offers.</p>
+        <div class="relative max-w-sm">
+          <input
+            type="email"
+            placeholder="Your email address"
+            class="w-full rounded-full py-3 px-6 bg-green-800 placeholder-green-400 focus:outline-none focus:ring-4 focus:ring-green-600 text-green-100 shadow-inner"
+          />
+          <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-green-300 hover:text-green-400 transition" aria-label="Subscribe">
+            <i class="fas fa-paper-plane fa-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-semibold mb-5 text-white">Contact Us</h3>
+        <address class="not-italic space-y-3 text-green-300 text-sm">
+          <p>111 Nairobi, Kenya<br/>KC 1515, Karen</p>
+          <p><a href="mailto:akezasaloi@gmail.com" class="hover:text-green-400">akezasaloi@gmail.com</a></p>
+          <p><a href="tel:+254780300458" class="hover:text-green-400">+254-78030-0458</a></p>
+        </address>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-semibold mb-5 text-white">Account</h3>
+        <nav class="flex flex-col space-y-3 text-green-300 text-sm">
+          <a href="/account" class="hover:text-green-400 transition">My Account</a>
+          <a href="/login" class="hover:text-green-400 transition">Login</a>
+          <a href="{% url 'cart:cart_detail' %}" class="hover:text-green-400 transition">Cart</a>
+          <a href="/wishlist" class="hover:text-green-400 transition">Wishlist</a>
+          <a href="{% url 'list_products' %}" class="hover:text-green-400 transition">Shop</a>
+        </nav>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-semibold mb-5 text-white">Quick Links</h3>
+        <nav class="flex flex-col space-y-3 text-green-300 text-sm">
+          <a href="/privacy-policy" class="hover:text-green-400 transition">Privacy Policy</a>
+          <a href="/terms" class="hover:text-green-400 transition">Terms of Use</a>
+          <a href="/faq" class="hover:text-green-400 transition">FAQ</a>
+          <a href="/contact" class="hover:text-green-400 transition">Contact</a>
+        </nav>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-semibold mb-5 text-white">Download Our App</h3>
+        <p class="text-green-400 text-xs mb-6 max-w-xs">Save $3 on your first order with our app!</p>
+        <div class="grid grid-cols-2 gap-6 mb-6">
+          <img src="https://www.free-barcode-generator.net/images/start/qrcode_bookm_en.png" alt="QR Code" class="w-24 h-24 rounded-lg border border-green-700 shadow-sm"/>
+          <div class="flex flex-col justify-center space-y-3">
+            <a href="https://play.google.com/store" target="_blank" rel="noopener" class="block">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play Store" class="w-32"/>
+            </a>
+            <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener" class="block mt-2">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1280px-Download_on_the_App_Store_Badge.svg.png" alt="Apple App Store" class="w-32"/>
+            </a>
           </div>
         </div>
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold">Support</h3>
-          <div class="space-y-2 text-sm text-gray-300">
-            <p>111 Nairobi, Kenya,<br />KC 1515, Karen</p>
-            <p>akezasaloi@gmail.com</p>
-            <p>+254-78030-0458</p>
-          </div>
-        </div>
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold">Account</h3>
-          <div class="space-y-2 text-sm">
-            <a href="/account" class="block text-gray-300 hover:text-white">My Account</a>
-            <a href="/login" class="block text-gray-300 hover:text-white">Login</a>
-            <a href="{% url 'cart:cart_detail' %}" class="block text-gray-300 hover:text-white">Cart</a>
-            <a href="/wishlist" class="block text-gray-300 hover:text-white">Wishlist</a>
-            <a href="{% url 'list_products' %}" class="block text-gray-300 hover:text-white">Shop</a>
-          </div>
-        </div>
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold">Quick Link</h3>
-          <div class="space-y-2 text-sm">
-            <a href="/privacy-policy" class="block text-gray-300 hover:text-white">Privacy Policy</a>
-            <a href="/terms" class="block text-gray-300 hover:text-white">Terms Of Use</a>
-            <a href="/faq" class="block text-gray-300 hover:text-white">FAQ</a>
-            <a href="/contact" class="block text-gray-300 hover:text-white">Contact</a>
-          </div>
-        </div>
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold">Download App</h3>
-          <p class="text-gray-300 text-xs">Save $3 with App New User Only</p>
-          <div class="grid grid-cols-2 gap-2">
-            <img src="https://www.free-barcode-generator.net/images/start/qrcode_bookm_en.png" alt="QR Code" class="w-20 h-20" />
-            <div class="space-y-2">
-              <a href="https://play.google.com/store" target="_blank" rel="noopener">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" class="w-24 h-8 mb-2" />
-              </a>
-              <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1280px-Download_on_the_App_Store_Badge.svg.png" alt="App Store" class="w-24 h-8" />
-              </a>
-            </div>
-          </div>
-          <div class="flex space-x-4 pt-2">
-            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-white hover:text-gray-300"><i class="fab fa-linkedin-in"></i></a>
-          </div>
+        <div class="flex space-x-8 text-green-300 text-2xl">
+          <a href="#" class="hover:text-green-500 transition"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="hover:text-green-500 transition"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-green-500 transition"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="hover:text-green-500 transition"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
     </div>
-    <div class="border-t border-gray-600">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center">
-        <p class="text-gray-500 text-sm">@Copyright Akeza 2025. All right reserved</p>
+
+    <div class="border-t border-green-700 mt-16">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 text-center text-green-400 text-xs select-none tracking-wide">
+        &copy; 2025 Jacky Grocery Shop. All rights reserved.
       </div>
     </div>
   </footer>
+
 </body>
 </html>
